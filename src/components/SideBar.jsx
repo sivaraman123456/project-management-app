@@ -1,5 +1,6 @@
 
 
+// eslint-disable-next-line react/prop-types
 const SideBar = ({onSelected}) => {
   return (
     <aside className="bg-black w-1/3 py-16 px-8 text-white md:w-72 rounded-r-xl h-screen">

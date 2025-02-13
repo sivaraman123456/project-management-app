@@ -7,6 +7,8 @@ const App = () => {
     selectedProjectId: undefined,
     projects: [],
   });
+  console.log("SelectedProjectID>>>>>",projectState.selectedProjectId);
+
   const handleSlectedProject = () => {
     setProjectState((prevState) => {
       return {
@@ -15,11 +17,20 @@ const App = () => {
       };
     });
   };
+
+  const handleCancelProject = () => {
+    setProjectState((prevState) => {
+      return {
+        ...prevState,
+        selectedProjectId: undefined
+      }
+    })
+  }
   let content = null;
   if (projectState.selectedProjectId === null) {
-    content = <NewProject />;
+    content = <NewProject onCancel={handleCancelProject}/>;
   } else {
-    content = <NoProjectSelected />;
+    content = <NoProjectSelected onSelected={handleSlectedProject} />;
   }
   return (
     <>
