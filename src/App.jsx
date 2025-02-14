@@ -7,7 +7,7 @@ const App = () => {
     selectedProjectId: undefined,
     projects: [],
   });
-  console.log("SelectedProjectID>>>>>",projectState.selectedProjectId);
+  console.log("SelectedProjectID>>>>>", projectState);
 
   const handleSlectedProject = () => {
     setProjectState((prevState) => {
@@ -18,24 +18,43 @@ const App = () => {
     });
   };
 
+  const handleAddProject = (project) => {
+    console.log("Project:", project);
+
+    setProjectState((prevState) => {
+      const newData = {
+        ...project,
+        id: Math.random(),
+      };
+      return {
+        ...prevState,
+        selectedProjectId: undefined,
+        projects: [...prevState.projects, newData],
+      };
+    });
+  };
+
+
   const handleCancelProject = () => {
     setProjectState((prevState) => {
       return {
         ...prevState,
-        selectedProjectId: undefined
-      }
-    })
-  }
+        selectedProjectId: undefined,
+      };
+    });
+  };
   let content = null;
   if (projectState.selectedProjectId === null) {
-    content = <NewProject onCancel={handleCancelProject}/>;
+    content = (
+      <NewProject onCancel={handleCancelProject} onAdd={handleAddProject} />
+    );
   } else {
     content = <NoProjectSelected onSelected={handleSlectedProject} />;
   }
   return (
     <>
       <main className="h-screen flex gap-8">
-        <SideBar onSelected={handleSlectedProject} />
+        <SideBar onSelected={handleSlectedProject}  title={projectState.projects} />
         {content}
       </main>
     </>
