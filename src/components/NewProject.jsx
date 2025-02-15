@@ -1,11 +1,13 @@
 import { useRef } from "react";
 import Input from "./Input";
+import Modal from "./Modal";
 
 const NewProject = ({ onCancel, onAdd }) => {
   const title = useRef();
   const description = useRef();
   const dueDate = useRef();
-
+  
+  const modal =useRef()
   const handleSave = () => {
     console.log("handleSave");
 
@@ -14,13 +16,20 @@ const NewProject = ({ onCancel, onAdd }) => {
     const dueDate2 = dueDate.current?.value;
 
     console.log({ title2, des, dueDate2 });
-    // if(title.trim() === '' || des.trim() === '' || dueDate2.trim() === ''){
-
-    // }
+    if(title2.trim() === '' || des.trim() === '' || dueDate2.trim() === ''){
+modal.current.open()
+return
+    }
     onAdd({ title: title2, description: des, dueDate: dueDate2 });
   };
 
   return (
+    <>
+    <Modal ref={modal} >
+    <p className="text-red-600 text-xl font-semibold ">Validation Error....!</p>
+      <p  className="font-bold text-stone-700 text-xl mt-3">OOP's.... you forgot to fill the inputs!</p>
+      <p className="font-bold text-stone-700 text-xl mt-3">To make sure the fields are fill</p>
+    </Modal>
     <div className="w-[35rem] mt-16">
       <menu className="flex justify-end gap-8 items-center">
         <li>
@@ -44,6 +53,7 @@ const NewProject = ({ onCancel, onAdd }) => {
       <Input label="Description" ref={description} textarea />
       <Input type="date" ref={dueDate} label="Due Date" />
     </div>
+    </>
   );
 };
 
