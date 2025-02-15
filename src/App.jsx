@@ -1,5 +1,6 @@
 import NewProject from "./components/NewProject";
 import { NoProjectSelected } from "./components/NoProjectSelected";
+import SelectedProject from "./components/SelectedProject";
 import SideBar from "./components/SideBar";
 import { useState } from "react";
 const App = () => {
@@ -19,7 +20,7 @@ const App = () => {
     });
   };
 
-  //Add a new  peroject 
+  //Add a new  peroject
   const handleAddProject = (project) => {
     console.log("Project:", project);
 
@@ -36,7 +37,7 @@ const App = () => {
     });
   };
 
-// move to NO project
+  // move to NO project
   const handleCancelProject = () => {
     setProjectState((prevState) => {
       return {
@@ -46,37 +47,55 @@ const App = () => {
     });
   };
 
-// Add selected Project ID
+  // Add selected Project ID
 
-const handleSelectedProjectId = (id) =>{
-  console.log("ID>>>>:",id);
-  
-  setProjectState((prevState)=>{
-    return {
-      ...prevState,
-      selectedProjectId:id
-    }
-  })
-}
-// find the slected project data
-const selectedProject= projectState.projects.find((data)=>{
- return data.id === projectState.selectedProjectId
-})
-console.log("selectedproject:",selectedProject);
+  const handleSelectedProjectId = (id) => {
+    console.log("ID>>>>:", id);
 
+    setProjectState((prevState) => {
+      return {
+        ...prevState,
+        selectedProjectId: id,
+      };
+    });
+  };
+  // find the slected project data
+  const selectedProject = projectState.projects.find((data) => {
+    return data.id === projectState.selectedProjectId;
+  });
+  console.log("selectedproject:", selectedProject);
+
+  // delete project scenario
+  const handleDelete = () => {
+    setProjectState((prevState) => {
+      return {
+        ...prevState,
+        selectedProjectId:undefined,
+        projects: prevState.projects.filter((data) => data.id !== prevState.selectedProjectId),
+      };
+    });
+  };
 
   let content = null;
   if (projectState.selectedProjectId === null) {
     content = (
       <NewProject onCancel={handleCancelProject} onAdd={handleAddProject} />
     );
-  } else {
+  } else if (projectState.selectedProjectId === undefined) {
     content = <NoProjectSelected onSelected={handleSlectedProject} />;
+  } else {
+    content = (
+      <SelectedProject project={selectedProject} onDelete={handleDelete} />
+    );
   }
   return (
     <>
       <main className="h-screen flex gap-8">
-        <SideBar onSelected={handleSlectedProject}  title={projectState.projects} selectedID={handleSelectedProjectId} />
+        <SideBar
+          onSelected={handleSlectedProject}
+          title={projectState.projects}
+          selectedID={handleSelectedProjectId}
+        />
         {content}
       </main>
     </>
