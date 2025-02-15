@@ -9,6 +9,7 @@ const App = () => {
   });
   console.log("SelectedProjectID>>>>>", projectState);
 
+  // create a new project
   const handleSlectedProject = () => {
     setProjectState((prevState) => {
       return {
@@ -18,6 +19,7 @@ const App = () => {
     });
   };
 
+  //Add a new  peroject 
   const handleAddProject = (project) => {
     console.log("Project:", project);
 
@@ -34,7 +36,7 @@ const App = () => {
     });
   };
 
-
+// move to NO project
   const handleCancelProject = () => {
     setProjectState((prevState) => {
       return {
@@ -43,6 +45,26 @@ const App = () => {
       };
     });
   };
+
+// Add selected Project ID
+
+const handleSelectedProjectId = (id) =>{
+  console.log("ID>>>>:",id);
+  
+  setProjectState((prevState)=>{
+    return {
+      ...prevState,
+      selectedProjectId:id
+    }
+  })
+}
+// find the slected project data
+const selectedProject= projectState.projects.find((data)=>{
+ return data.id === projectState.selectedProjectId
+})
+console.log("selectedproject:",selectedProject);
+
+
   let content = null;
   if (projectState.selectedProjectId === null) {
     content = (
@@ -54,7 +76,7 @@ const App = () => {
   return (
     <>
       <main className="h-screen flex gap-8">
-        <SideBar onSelected={handleSlectedProject}  title={projectState.projects} />
+        <SideBar onSelected={handleSlectedProject}  title={projectState.projects} selectedID={handleSelectedProjectId} />
         {content}
       </main>
     </>
