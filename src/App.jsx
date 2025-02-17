@@ -7,6 +7,7 @@ const App = () => {
   const [projectState, setProjectState] = useState({
     selectedProjectId: undefined,
     projects: [],
+    tasks: []
   });
   console.log("SelectedProjectID>>>>>", projectState);
 
@@ -76,6 +77,23 @@ const App = () => {
     });
   };
 
+// create new Task logic
+const handleAddTask = (data) =>{
+  setProjectState((prevState)=>{
+    const newTask ={
+      task :data,
+      id :Math.random()
+    }
+    return {
+      ...prevState,
+      projects:[...prevState.projects],
+      tasks:[...prevState.tasks,newTask]
+
+    }
+  })
+}
+
+
   let content = null;
   if (projectState.selectedProjectId === null) {
     content = (
@@ -85,7 +103,7 @@ const App = () => {
     content = <NoProjectSelected onSelected={handleSlectedProject} />;
   } else {
     content = (
-      <SelectedProject project={selectedProject} onDelete={handleDelete} />
+      <SelectedProject project={selectedProject} onDelete={handleDelete} onAdd={handleAddTask} tasks={projectState.tasks} />
     );
   }
   return (
