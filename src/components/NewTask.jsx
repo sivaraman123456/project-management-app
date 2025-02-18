@@ -41,7 +41,7 @@ setProject((prevState)=>{
                 {tasks.map((data)=>(
                     <li key={data.id} className="flex justify-between">
                         <span>{data.task}</span>
-                        <button onClick={()=>handleDeleteTask(data.id)}>Clear</button>
+                        <button>Clear</button>
                     </li>
                 ))}
             </ul>

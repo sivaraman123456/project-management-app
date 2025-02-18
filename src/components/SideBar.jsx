@@ -13,7 +13,7 @@ const SideBar = ({onSelected,title,selectedID}) => {
     <ul>
       {title.length > 0 && title.map((data)=>{
          let classCss = `px-2 py-1  text-md text-left  hover:bg-stone-600 w-full rounded-md my-3 bg-stone-800  text-stone-200`;
-      return  <li key={data.id} className={classCss} onClick={()=>selectedID(data.id)} >{data.title}</li>
+      return  <li key={data?.id} className={classCss} onClick={()=>selectedID(data?.id)} >{data?.title}</li>
       })}
     </ul>
 </aside>

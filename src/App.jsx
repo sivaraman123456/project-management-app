@@ -7,7 +7,7 @@ const App = () => {
   const [projectState, setProjectState] = useState({
     selectedProjectId: undefined,
     projects: [],
-    tasks:[]
+ 
   });
   console.log("SelectedProjectID>>>>>", projectState);
 
@@ -62,7 +62,7 @@ const App = () => {
   };
   // find the slected project data
   const selectedProject = projectState.projects.find((data) => {
-    return data.id === projectState.selectedProjectId;
+    return data?.id === projectState?.selectedProjectId;
   });
   console.log("selectedproject:", selectedProject);
 
@@ -79,23 +79,39 @@ const App = () => {
     });
   };
 
-  // create new Task logic
-  const handleAddTask = (data) =>{
-    setProjectState((prevState)=>{
-      const newTask ={
-        task :data,
-        id :Math.random()
-      }
-      return {
-        ...prevState,
-        projects:[...prevState.projects],
-        tasks:[...(prevState.tasks || []),newTask]
+  // // create new Task logic
+  // const handleAddTask = (data) =>{
+  //   setProjectState((prevState)=>{
+  //     const newTask ={
+  //       task :data,
+  //       id :Math.random()
+  //     }
+  //     return {
+  //       ...prevState,
+  //       projects:[...prevState.projects],
+  //       tasks:[...(prevState.tasks || []),newTask]
 
+  //     }
+  //   })
+  // }
+
+  const handleAddTask = (data) =>{
+setProjectState((prevState)=>{
+  return{
+    ...prevState,
+    projects: prevState.projects.map((project)=>
+    project.id === prevState.selectedProjectId ?
+      {
+        ...project,
+        tasks:[...(project.tasks || []),{id:Math.random(),task:data}]
       }
-    })
+      :
+      project
+    )
+  }
+})
   }
 
-  
   let content = null;
   if (projectState.selectedProjectId === null) {
     content = (
@@ -109,7 +125,7 @@ const App = () => {
         project={selectedProject}
         onDelete={handleDelete}
         onAdd={handleAddTask}
-        tasks={projectState.tasks ?? []}
+        tasks={selectedProject?.tasks|| []}
         setProject={setProjectState}
       />
     );
@@ -119,7 +135,7 @@ const App = () => {
       <main className="h-screen flex gap-8">
         <SideBar
           onSelected={handleSlectedProject}
-          title={projectState.projects}
+          title={projectState?.projects}
           selectedID={handleSelectedProjectId}
         />
         {content}
