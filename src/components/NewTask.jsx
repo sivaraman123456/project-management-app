@@ -1,6 +1,8 @@
 import { useState } from "react";
 
-const NewTask = ({ onAdd,tasks }) => {
+const NewTask = ({ onAdd,tasks,setProject }) => {
+    console.log("type:",typeof tasks);
+    
   const [task, setTasks] = useState("");
 
   const handleAddTask = (data) => {
@@ -10,6 +12,17 @@ const NewTask = ({ onAdd,tasks }) => {
     }
   };
 
+  
+
+  const handleDeleteTask = (id) =>{
+setProject((prevState)=>{
+  return{
+    ...prevState,
+    tasks:prevState.tasks.filter((data)=> data.id !== id)
+  }
+})
+
+  }
   return (
     <div className="mt-5">
       <div className="flex justify-between">
@@ -28,7 +41,7 @@ const NewTask = ({ onAdd,tasks }) => {
                 {tasks.map((data)=>(
                     <li key={data.id} className="flex justify-between">
                         <span>{data.task}</span>
-                        <button>Clear</button>
+                        <button onClick={()=>handleDeleteTask(data.id)}>Clear</button>
                     </li>
                 ))}
             </ul>

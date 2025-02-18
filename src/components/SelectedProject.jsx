@@ -1,6 +1,6 @@
 import NewTask from "./NewTask";
 
-const SelectedProject = ({project,onDelete,onAdd,tasks}) => {
+const SelectedProject = ({project,onDelete,onAdd,tasks,setProject}) => {
     console.log("project>>>",project);
     
   return (
@@ -19,7 +19,7 @@ const SelectedProject = ({project,onDelete,onAdd,tasks}) => {
     <p className="text-stone-500 ">{project?.dueDate}</p>
     <p>{project?.description}</p>
     <hr />
-<NewTask onAdd={onAdd} tasks={tasks}/>
+<NewTask onAdd={onAdd} tasks={tasks} setProject={setProject} />
    
   </div>
   )
